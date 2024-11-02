@@ -87,8 +87,15 @@ class ActionsCfg:
     """Action specifications for the MDP."""
 
     arm_action: ActionTerm = MISSING
+#     Type Annotation (ActionTerm): Specifies that arm_action should be an instance of the ActionTerm class.
+# Default Value (MISSING): Indicates that this attribute is required and must be provided by the user. 
+# The MISSING placeholder likely signifies that the value must be explicitly set before the configuration is considered valid.
     gripper_action: ActionTerm | None = None
+#     Type Annotation (ActionTerm | None): Specifies that gripper_action can either be an instance of the ActionTerm class or None.
+# Default Value (None): Indicates that this attribute is optional and defaults to None if not provided.
 
+# ActionsCfg。 这个Cfg可以设置具体的动作，这个动作接收Actor网络输出的结果，通过设定一些映射参数以变换到实际的机器人运动上。
+# 在这里我们也没有直接创建，而是与（1）中的机器人部分一起重载，这些设置起来更加方便和定制化，不同的机器人有不同的动作参数。
 
 @configclass
 class ObservationsCfg:

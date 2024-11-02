@@ -44,10 +44,14 @@ class JointAction(ActionTerm):
     """
 
     cfg: actions_cfg.JointActionCfg
+    # This attribute holds the configuration for the action term. 
+    #It's expected to be an instance of JointActionCfg, which contains the joint names, scale, and offset information.
     """The configuration of the action term."""
     _asset: Articulation
+    #This attribute represents the articulation asset (e.g., a robotic arm) on which the action term is applied.
     """The articulation asset on which the action term is applied."""
     _scale: torch.Tensor | float
+    #This attribute holds the scaling factor applied to the input action. It can be a single float value or a torch.Tensor.
     """The scaling factor applied to the input action."""
     _offset: torch.Tensor | float
     """The offset applied to the input action."""
