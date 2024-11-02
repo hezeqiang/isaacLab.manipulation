@@ -53,12 +53,17 @@ from omni.isaac.lab.utils.assets import ISAAC_NUCLEUS_DIR
 Install [RSL_RL](https://github.com/leggedrobotics/rsl_rl) outside of the isaacLab repository, e.g. `home/code/rsl_rl`.
 
 ```bash
+mkdir isaacLab.manipulation/isaacLab/manipulation/algorithms
 cd isaacLab.manipulation/isaacLab/manipulation/algorithms
 git clone https://github.com/leggedrobotics/rsl_rl.git
 cd rsl_rl
 python -m pip install -e .
+
+## refresh index
+cd isaacLab.manipulation
+python -m pip install -e .
 ```
-You can design your own RL Algorithm
+You can design your own RL Algorithm by editing "modules" and "algorithms" in RSL-RL
 
 ## Usage
 ```bash
@@ -83,11 +88,23 @@ mkdir isaacLab.manipulation/isaacLab/manipulation/tasks/Robot_arm/your_tasks/con
 ### 3. RL settings
 You can modify *actions/rewards/observations/events/terminations* in the directory "mdp" to set up your own RL settings and you can manage them uniformly in "env_cfg" outside "mdp". These files modify the functions of the original isaaclab through rewritting and overloading.
 
+### IMPORTANT ISSUES
+1.  'RigidBodyView' object has no attribute 'get_accelerations.
+<br>Solution: Update Isaac Sim to version 4.1.0.
+2.  argument --cpu: conflicting option string: --cpu
+<br>Solution: Annotate the following code in *play.py* and *train.py*:
+```python
+parser.add_argument("--cpu", action="store_true", default=False, help="Use CPU pipeline.")
+```
+<br>Then remove "use_gpu = not args_cli.cpu" in the following code:
+```python
+parse_env_cfg(args_cli.task, use_gpu=not args_cli.cpu, num_envs=args_cli.num_envs)
+```
 
 ### 4. Train a policy.
 4.1 RobotArm
 ```bash
-python3 scripts/rsl_rl/train.py --task Template-Isaac-Reach-Kinova-v0--num_envs 4096 --headless
+python3 scripts/rsl_rl/train.py --task Template-Isaac-Reach-Kinova-v0 --num_envs 4096 --headless
 ```
 ```bash
 python3 scripts/rsl_rl/train.py --task Template-Isaac-Reach-Franka-v0 --num_envs 4096 --headless
